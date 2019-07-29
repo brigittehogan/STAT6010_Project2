@@ -66,3 +66,16 @@ table(stack_q$CreationYear) # looks like we're missing 2012 & 2014
 plot(table(stack_q$CreationDate))
 
 stack_q %>% select(-Id, -Tags, -Title, -Body, -CreationDate, -CreationYear. -Count) %>% ggpairs()
+                           
+###Melissa's Additions
+                           
+##Adding columns to record Title and Body word counts                           
+stack_q$TitleWordCount <-str_count(stack_q$Title,'\\w+')
+stack_q$BodyWordCount <- str_count(stack_q$Body,'\\w+')
+
+##Adding columns to record amount of "question" words in Title and Body                          
+stack_q$Tquestion <- str_count(stack_q$Title, "who") + str_count(stack_q$Title, "what")+
+  str_count(stack_q$Title, "when") + str_count(stack_q$Title, "where") + str_count(stack_q$Title, "why") + str_count(stack_q$Title, "how")
+
+stack_q$Bquestion <- str_count(stack_q$Body, "who") + str_count(stack_q$Body, "what") +
+  str_count(stack_q$Body, "when") + str_count(stack_q$Body, "where") + str_count(stack_q$Body, "why") + str_count(stack_q$Body, "how")
