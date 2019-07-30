@@ -1,8 +1,13 @@
 # Load Libraries ####
 library(tidyverse)
 library(here)
-setwd('C:/Users/Jason/Documents/Stat 6010/Datasets')
 library(GGally)
+library(olsrr)
+library(MASS)
+library(car)
+library(bestglm)
+setwd('C:/Users/Jason/Documents/Stat 6010/Datasets')
+
 
 stack_q <- read.csv("stackdata_mod.csv", stringsAsFactors = FALSE,
                   na.strings= c("NA", "", "<NA>"))
