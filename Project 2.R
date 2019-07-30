@@ -6,11 +6,12 @@ library(olsrr)
 library(MASS)
 library(car)
 library(bestglm)
-setwd('C:/Users/Jason/Documents/Stat 6010/Datasets')
-
+#setwd('C:/Users/Jason/Documents/Stat 6010/Datasets')
 
 stack_q <- read.csv("stackdata_mod.csv", stringsAsFactors = FALSE,
                   na.strings= c("NA", "", "<NA>"))
+names(stack_q)[which(names(stack_q)=="Time.after.1.1.2010")] <- "Timeafter2010"
+
 
 # Check expectations
 length(unique(stack_q$Id))==nrow(stack_q) # True if all Ids are unique
