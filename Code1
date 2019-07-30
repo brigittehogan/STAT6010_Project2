@@ -1,0 +1,34 @@
+# Load Libraries ####
+library(tidyverse)
+library(here)
+setwd('C:/Users/Jason/Documents/Stat 6010/Datasets')
+library(GGally)
+
+stack_q <- read.csv("stackdata_mod.csv", stringsAsFactors = FALSE,
+                  na.strings= c("NA", "", "<NA>"))
+
+# Check expectations
+length(unique(stack_q$Id))==nrow(stack_q) # True if all Ids are unique
+
+##Adding columns to record Title and Body word counts                           
+stack_q$TitleWordCount <-str_count(stack_q$Title,'\\w+')
+stack_q$BodyWordCount <- str_count(stack_q$Body,'\\w+')
+
+##Adding columns to record amount of "question" words in Title and Body                          
+stack_q$Tquestion <- str_count(stack_q$Title, "who") + str_count(stack_q$Title, "what")+
+  str_count(stack_q$Title, "when") + str_count(stack_q$Title, "where") + str_count(stack_q$Title, "why") + str_count(stack_q$Title, "how")
+
+stack_q$Bquestion <- str_count(stack_q$Body, "who") + str_count(stack_q$Body, "what") +
+  str_count(stack_q$Body, "when") + str_count(stack_q$Body, "where") + str_count(stack_q$Body, "why") + str_count(stack_q$Body, "how")
+
+# length of title (in characters)
+stack_q$TitleLength <- nchar(stack_q$Title)
+stack_q$TitleLength[is.na(stack_q$Title)] <- 0
+
+# length of body (in characters)
+stack_q$BodyLength  <- nchar(stack_q$Body)
+
+#running the regression with all variables
+test_reg <- glm(Count.dummy ~ TitleLength + Tquestion + Bquestion + BodyLength + TitleWordCount, BodyWordCount,  data = stack_q, family = binomial(link = "logit"))
+summary(test_reg)
+anova(test_reg)
