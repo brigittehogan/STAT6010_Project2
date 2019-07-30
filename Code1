@@ -32,3 +32,6 @@ stack_q$BodyLength  <- nchar(stack_q$Body)
 test_reg <- glm(Count.dummy ~ TitleLength + Tquestion + Bquestion + BodyLength + TitleWordCount, BodyWordCount,  data = stack_q, family = binomial(link = "logit"))
 summary(test_reg)
 anova(test_reg)
+
+stack_q$TagCount <-str_count(stack_q$Tag,"<")
+head(stack_q)
