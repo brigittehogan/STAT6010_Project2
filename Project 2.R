@@ -43,7 +43,6 @@ anova(test_reg)
 
 ##################################################################################################
 #model selection
-
 #AIC running the regression with all variables
 test_reg <- glm(Count.dummy ~ TitleLength + Tquestion + Bquestion + BodyLength + Timeafter2010 + help + TagCount + homework + assignment + BodyWordCount + TitleWordCount,  data = stack_q, family = binomial(link = "logit"))
 summary(test_reg) #AIC = 12369
@@ -62,8 +61,8 @@ test_reg3 <- glm(Count.dummy ~ BodyLength + Tquestion + Bquestion + TitleLength 
 summary(test_reg3) #AIC 12402
 
 #AIC trying with character lengths and only help wordsearch
-test_reg4 <- glm(Count.dummy ~ BodyLength + Tquestion + Bquestion + TitleLength + Timeafter2010 + TagCount + homework,  data = stack_q, family = binomial(link = "logit"))
-summary(test_reg4) #AIC 12403
+test_reg4 <- glm(Count.dummy ~ BodyLength + Tquestion + Bquestion + TitleLength + Timeafter2010 + TagCount + help,  data = stack_q, family = binomial(link = "logit"))
+summary(test_reg4) #AIC 12401
 
 #AIC trying without key variables
 #with no BodyLength
@@ -89,12 +88,12 @@ test_reg11 <- glm(Count.dummy ~ BodyLength + Tquestion + Bquestion + TitleLength
 summary(test_reg11) #AIC 12406
 
 #AIC trying one more time in our likely final model with wordcount instead of character
-test_reg12 <-  glm(Count.dummy ~ BodyWordCount + Tquestion + Bquestion + TitleWordCount + Timeafter2010 + TagCount,  data = stack_q, family = binomial(link = "logit"))
+test_reg12 <-  glm(Count.dummy ~ BodyWordCount + Tquestion + Bquestion + TitleWordCount + Timeafter2010 + TagCount + help,  data = stack_q, family = binomial(link = "logit"))
 summary(test_reg12) #AIC 12419
 
 #Final, best mod based on AIC
 
-test_reg <- glm(Count.dummy ~ BodyLength + Tquestion + Bquestion + TitleLength + Timeafter2010 + TagCount,  data = stack_q, family = binomial(link = "logit"))
+test_reg <- glm(Count.dummy ~ BodyLength + Tquestion + Bquestion + TitleLength + Timeafter2010 + TagCount + help,  data = stack_q, family = binomial(link = "logit"))
 summary(test_reg)
 ##########################################################################################################################################
 
