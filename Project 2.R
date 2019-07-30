@@ -37,7 +37,7 @@ stack_q$help <-  as.integer(grepl(pattern = "help", stack_q$Body, ignore.case = 
 stack_q$TagCount <-str_count(stack_q$Tag,"<")
 
 #running the regression with all variables
-test_reg <- glm(Count.dummy ~ TitleLength + Tquestion + Bquestion + BodyLength + Timeafter2010 + help + TagCount,  data = stack_q, family = binomial(link = "logit"))
+test_reg <- glm(Count.dummy ~ TitleLength + Tquestion + Bquestion + BodyLength + Timeafter2010 + help + TagCount + homework + assignment + TitleWordCount + BodyWordCount,  data = stack_q, family = binomial(link = "logit"))
 summary(test_reg)
 anova(test_reg)
 
