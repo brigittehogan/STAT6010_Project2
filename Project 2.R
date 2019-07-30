@@ -117,4 +117,12 @@ anova(null_model, test_reg)
 vif(test_reg)
 
 
-#
+#Turning logits to probabilities
+logit2prob <- function(logit){
+  odds <- exp(logit)
+  prob <- odds / (1 + odds)
+  return(prob)
+}
+
+logit2prob(coef(test_reg))
+
