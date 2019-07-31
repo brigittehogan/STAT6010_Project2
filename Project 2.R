@@ -1,4 +1,4 @@
-# STAT 6010 Project 2: StackExchange
+# STAT 6021 Project 2: StackExchange
 # 31 July 2019
 # Team:
 # Brigitte Hogan bwh5v
