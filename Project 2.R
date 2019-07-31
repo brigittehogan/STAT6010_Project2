@@ -103,7 +103,7 @@ test_reg <- glm(Count.dummy ~ BodyLength + Tquestion + Bquestion + TitleLength +
 summary(test_reg)
 ##########################################################################################################################################
 
-#testing model against null and saturday
+#testing model against null and saturated
 #null
 null_model <- glm(Count.dummy ~ 1,  data = stack_q, family = binomial(link = "logit"))
 summary(null_model)
@@ -126,3 +126,71 @@ logit2prob <- function(logit){
 
 logit2prob(coef(test_reg))
 
+##########################################################################################################################################
+### visualizations ####
+
+stack_best <- stack_q %>% dplyr::select(Count.dummy, BodyLength, Tquestion, Bquestion, TitleLength, Timeafter2010, TagCount, help)
+head(stack_best)
+stack_plot <- stack_best
+stack_plot$Answered <- stack_plot$Count.dummy
+stack_plot$Answered <- as.factor(stack_plot$Answered)
+
+# view relationship between regressors
+ggpairs(stack_best[,-1])
+
+### Scatterplot
+pt1 <- stack_plot %>% 
+  ggplot(aes(Timeafter2010, BodyLength, color=Answered)) +
+  geom_point(alpha=0.5) + 
+  ylab("Number of Characters in Body\n(BodyLength)") +
+  xlab("Days after 2010 (Timeafter2010)")
+pt1 + geom_jitter(width = 100, height = 1) + theme_classic()
+
+
+### Histograms
+
+# regressors
+hist <- stack_plot %>% ggplot(aes(BodyLength)) + geom_histogram(bins=50)
+hist + theme_classic() + 
+  theme(axis.text=element_text(size=16),
+        axis.title=element_text(size=14,face="bold"))
+
+hist <- stack_plot %>% ggplot(aes(TitleLength)) + geom_histogram(bins=50)
+hist + theme_classic() + 
+  theme(axis.text=element_text(size=16),
+        axis.title=element_text(size=14,face="bold"))
+
+hist <- stack_plot %>% ggplot(aes(Timeafter2010)) + geom_histogram(bins=50)
+hist + theme_classic() + 
+  theme(axis.text=element_text(size=16),
+        axis.title=element_text(size=14,face="bold"))
+
+hist <- stack_plot %>% ggplot(aes(Bquestion)) + geom_histogram(bins=50)
+hist + theme_classic() + 
+  theme(axis.text=element_text(size=16),
+        axis.title=element_text(size=14,face="bold"))
+
+stack_plot$help <- as.factor(stack_plot$help)
+hist <- stack_plot %>% ggplot(aes(help)) + geom_bar()
+hist + theme_classic() + 
+        theme(axis.text=element_text(size=16),
+              axis.title=element_text(size=14,face="bold"))
+
+stack_plot$Tquestion <- as.factor(stack_plot$Tquestion)
+hist <- stack_plot %>% ggplot(aes(Tquestion)) + geom_bar()
+hist + theme_classic() + 
+  theme(axis.text=element_text(size=16),
+        axis.title=element_text(size=14,face="bold"))
+
+stack_plot$TagCount <- as.factor(stack_plot$TagCount)
+hist <- stack_plot %>% ggplot(aes(TagCount)) + geom_bar()
+hist + theme_classic() + 
+  theme(axis.text=element_text(size=16),
+        axis.title=element_text(size=14,face="bold"))
+
+# dependent
+stack_plot$Count.dummy <- as.factor(stack_plot$Count.dummy)
+hist <- stack_plot %>% ggplot(aes(Count.dummy)) + geom_bar(fill = "#FF6666")
+hist + theme_classic() + 
+  theme(axis.text=element_text(size=16),
+        axis.title=element_text(size=14,face="bold"))
