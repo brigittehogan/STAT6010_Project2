@@ -1,3 +1,12 @@
+# STAT 6010 Project 2: StackExchange
+# 31 July 2019
+# Team:
+# Brigitte Hogan bwh5v
+# Sherry Kausch slk7s
+# Melissa Phillips mcp3vj
+# Jason Tiezzi jbt5am
+
+
 # Load Libraries ####
 library(tidyverse)
 library(here)
@@ -13,7 +22,7 @@ stack_q <- read.csv("stackdata_mod.csv", stringsAsFactors = FALSE,
 names(stack_q)[which(names(stack_q)=="Time.after.1.1.2010")] <- "Timeafter2010"
 
 
-# Check expectations
+# Check expectations ####
 length(unique(stack_q$Id))==nrow(stack_q) # True if all Ids are unique
 
 ##Adding columns to record Title and Body word counts                           
@@ -48,7 +57,7 @@ summary(test_reg)
 anova(test_reg)
 
 ##################################################################################################
-#model selection
+#Model selection ####
 #AIC running the regression with all variables
 test_reg <- glm(Count.dummy ~ TitleLength + Tquestion + Bquestion + BodyLength + Timeafter2010 + help + TagCount + homework + assignment + BodyWordCount + TitleWordCount,  data = stack_q, family = binomial(link = "logit"))
 summary(test_reg) #AIC = 12369
@@ -103,7 +112,7 @@ test_reg <- glm(Count.dummy ~ BodyLength + Tquestion + Bquestion + TitleLength +
 summary(test_reg)
 ##########################################################################################################################################
 
-#testing model against null and saturated
+#testing model against null and saturated ####
 #null
 null_model <- glm(Count.dummy ~ 1,  data = stack_q, family = binomial(link = "logit"))
 summary(null_model)
@@ -129,6 +138,7 @@ logit2prob(coef(test_reg))
 ##########################################################################################################################################
 ### visualizations ####
 
+# restructure data for visuals
 stack_best <- stack_q %>% dplyr::select(Count.dummy, BodyLength, Tquestion, Bquestion, TitleLength, Timeafter2010, TagCount, help)
 head(stack_best)
 stack_plot <- stack_best
